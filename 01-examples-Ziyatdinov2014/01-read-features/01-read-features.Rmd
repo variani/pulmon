@@ -1,0 +1,82 @@
+% Example on reading the features in R
+% Andrey Ziyatdinov
+% 05/09/2014
+
+```{r setup, include = FALSE}
+opts_chunk$set(fig.path = 'figure/', cache.path = 'cache/', echo = TRUE, 
+  cache = FALSE, tidy = FALSE,
+  fig.width = 9, fig.height = 9, dev = 'png', fig.cap = "",
+  warning = FALSE, message = FALSE)
+opts_knit$set(upload.fun = identity)
+```
+
+## About
+
+This document shows an example of code in R,
+in order to read the `features.csv` of the `pulmon` data set published on 
+[The UC Irvine Machine Learning Repository](http://archive.ics.uci.edu/ml/).
+
+A particular example of data analysis is a PCA on the `max` features,
+that reproduces the results obtained in [Ziyatdinov et al., 2014](http://www.journals.elsevier.com/sensors-and-actuators-b-chemical/),
+Section 3.1, Figure 4 c.
+
+## How to reproduce this report
+
+The working directory:
+```{r}
+getwd()
+```
+
+Run the following commands in R:
+
+```
+library(knitr)
+knit2html("01-read-features.Rmd")
+```
+
+That results in two output files: `*.md` (for github) and `*.html` (for browsing locally on your computer).
+
+## Data files
+
+For this report the data files are stored in:
+
+```{r}
+dat.dir <- "../../dat"
+
+list.files(dat.dir)
+```
+
+## Demo
+
+```{r}
+### inc
+library(plyr)
+library(ggplot2)
+
+library(pls)
+
+### options
+options(stringsAsFactors = FALSE)
+```
+
+```{r, cache = TRUE}
+### data
+dat <- read.table(file.path(dat.dir, "features.csv"), header = TRUE, sep = ",")
+head(colnames(dat), 30)
+```
+
+```{r pca_scores_max}
+### PCA
+ind <- grep("Ahf", colnames(dat))
+X <- dat[, ind]
+
+Y <- dat$lab
+
+cols <- dat$col
+cols <- paste0("#", cols)
+
+mod <- prcomp(X, center = TRUE, scale = TRUE)
+
+### plot
+scoreplot(mod, col = cols, pch = 20, cex = 3)
+```
