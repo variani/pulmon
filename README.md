@@ -4,4 +4,4 @@
 
 ## Note
 
-To be able to run the code, one needs to downloads the data files `rawdata.csv.gz` and `features.csv` from the UCI Machine Learning Repository website and save it to a local folder names `dat/`.
+To be able to run the code, one needs to downloads the data files `rawdata.csv.gz` and `features.csv` from the UCI Machine Learning Repository website and save it to a local folder named `dat/`.
