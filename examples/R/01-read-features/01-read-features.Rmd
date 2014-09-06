@@ -16,7 +16,7 @@ This document shows an example of code in R,
 in order to read the `features.csv` of the `pulmon` data set published on 
 [The UC Irvine Machine Learning Repository](http://archive.ics.uci.edu/ml/).
 
-A particular example of data analysis is a PCA on the `max` features,
+A particular example of data analysis is a PCA on the high-frequency `Ahf` features,
 that reproduces the results obtained in [Ziyatdinov et al., 2014](http://www.journals.elsevier.com/sensors-and-actuators-b-chemical/),
 Section 3.1, Figure 4 c.
 
