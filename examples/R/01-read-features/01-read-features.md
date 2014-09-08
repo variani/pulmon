@@ -4,7 +4,6 @@
 
 
 
-
 ## About
 
 This document shows an example of code in R,
@@ -24,9 +23,8 @@ getwd()
 ```
 
 ```
-## [1] "/home/aziyatdinov/git/variani/pulmon/examples/R/01-read-features"
+## [1] "/home/andrey/git/variani/pulmon/examples/R/01-read-features"
 ```
-
 
 Run the following commands in R:
 
@@ -43,15 +41,14 @@ For this report the data files are stored in:
 
 
 ```r
-dat.dir <- "../../dat"
+dat.dir <- "../../../dat"
 
 list.files(dat.dir)
 ```
 
 ```
-## character(0)
+## [1] "features.csv"   "rawdata.csv.gz"
 ```
-
 
 ## Demo
 
@@ -68,85 +65,36 @@ options(stringsAsFactors = FALSE)
 ```
 
 
-
 ```r
 ### data
 dat <- read.table(file.path(dat.dir, "features.csv"), header = TRUE, sep = ",")
-```
-
-```
-## Error: cannot open the connection
-```
-
-```r
 head(colnames(dat), 30)
 ```
 
 ```
-## Error: object 'dat' not found
+##  [1] "exp"       "batch"     "ace_conc"  "eth_conc"  "gas"      
+##  [6] "lab"       "col"       "S1_max"    "S2_max"    "S3_max"   
+## [11] "S4_max"    "S5_max"    "S6_max"    "S7_max"    "S8_max"   
+## [16] "S9_max"    "S10_max"   "S11_max"   "S12_max"   "S13_max"  
+## [21] "S14_max"   "S15_max"   "S16_max"   "S1_r1_Alf" "S1_r2_Alf"
+## [26] "S1_r3_Alf" "S1_r4_Alf" "S1_r5_Alf" "S1_r6_Alf" "S1_r7_Alf"
 ```
-
 
 
 ```r
 ### PCA
 ind <- grep("Ahf", colnames(dat))
-```
-
-```
-## Error: object 'dat' not found
-```
-
-```r
 X <- dat[, ind]
-```
-
-```
-## Error: object 'dat' not found
-```
-
-```r
 
 Y <- dat$lab
-```
-
-```
-## Error: object 'dat' not found
-```
-
-```r
 
 cols <- dat$col
-```
-
-```
-## Error: object 'dat' not found
-```
-
-```r
 cols <- paste0("#", cols)
-```
-
-```
-## Error: object 'cols' not found
-```
-
-```r
 
 mod <- prcomp(X, center = TRUE, scale = TRUE)
-```
-
-```
-## Error: object 'X' not found
-```
-
-```r
 
 ### plot
 scoreplot(mod, col = cols, pch = 20, cex = 3)
 ```
 
-```
-## Error: object 'mod' not found
-```
-
+![](figure/pca_scores_max.png) 

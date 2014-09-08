@@ -1,6 +1,6 @@
-% Example on reading the features in R
+% Example on reading the raw data in R
 % Andrey Ziyatdinov
-% 05/09/2014
+% 08/09/2014
 
 ```{r setup, include = FALSE}
 opts_chunk$set(fig.path = 'figure/', cache.path = 'cache/', echo = TRUE, 
@@ -13,12 +13,13 @@ opts_knit$set(upload.fun = identity)
 ## About
 
 This document shows an example of code in R,
-in order to read the `features.csv` of the `pulmon` data set published on 
+in order to read the raw data `rawdata.csv.gz` of the `pulmon` data set published on 
 [The UC Irvine Machine Learning Repository](http://archive.ics.uci.edu/ml/).
 
-A particular example of data analysis is a PCA on the high-frequency `Ahf` features,
-that reproduces the results obtained in [Ziyatdinov et al., 2014](http://www.journals.elsevier.com/sensors-and-actuators-b-chemical/),
-Section 3.1, Figure 4 c.
+The `max` features are extracted from time-series trajectories one by one,
+and a PCA on the resulted features is performed.
+That reproduces the results obtained in [Ziyatdinov et al., 2014](http://www.journals.elsevier.com/sensors-and-actuators-b-chemical/),
+Section 3.1, Figure 4 a.
 
 ## How to reproduce this report
 
@@ -31,7 +32,7 @@ Run the following commands in R:
 
 ```
 library(knitr)
-knit2html("01-read-features.Rmd")
+knit2html("02-read-rawdata.Rmd")
 ```
 
 That results in two output files: `*.md` (for github) and `*.html` (for browsing locally on your computer).
@@ -51,6 +52,7 @@ list.files(dat.dir)
 ```{r}
 ### inc
 library(plyr)
+library(reshape)
 library(ggplot2)
 
 library(pls)
@@ -59,20 +61,30 @@ library(pls)
 options(stringsAsFactors = FALSE)
 ```
 
-```{r, cache = TRUE}
+```{r read_data, cache = TRUE}
 ### data
-dat <- read.table(file.path(dat.dir, "features.csv"), header = TRUE, sep = ",")
-head(colnames(dat), 30)
+t <- system.time({
+  dat <- read.table(gzfile(file.path(dat.dir, "rawdata.csv.gz")), header = TRUE, sep = ",")
+})
+t
+```
+
+```{r, cache = TRUE}
+ind <- grep("dR", colnames(dat))
+dRmax <- apply(dat[, ind], 1, max)
+
+df <- data.frame(sensor = dat$sensor, sample = dat$sample, dRmax = dRmax)
+
+cf <- cast(df, sample ~ sensor)
 ```
 
 ```{r pca_scores_max}
 ### PCA
-ind <- grep("Ahf", colnames(dat))
-X <- dat[, ind]
+X <- cf[, -1] # remove `sample` column
 
-Y <- dat$lab
+Y <- subset(dat, sensor == 1, lab, drop = TRUE)
 
-cols <- dat$col
+cols <- subset(dat, sensor == 1, col, drop = TRUE)
 cols <- paste0("#", cols)
 
 mod <- prcomp(X, center = TRUE, scale = TRUE)
