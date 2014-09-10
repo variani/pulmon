@@ -12,4 +12,4 @@ Figure: PCA trajectories of the sensors' signals pre-processed by a high-pass fi
 
 ## Note
 
-To be able to run the code, one needs to downloads the data files `rawdata.csv.gz` and `features.csv` from the UCI Machine Learning Repository website and save it to a local folder named `dat/`.
+To be able to run the code, one needs to downloads the data files `rawdata.csv.gz` and `features.csv` from the UCI Machine Learning Repository website and save them to a local folder named `dat/`.
