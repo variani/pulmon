@@ -16,7 +16,7 @@ Figure: PCA trajectories of the sensors' signals pre-processed by a high-pass fi
 
 * R code: [examples/R](examples/R)
 
-## References
+## Publications
 
 * [Ziyatdinov2014]: The first data analysis of the data set was presented in (Ziyatdinov et al., 2014), and the results reported there should be considered as a reference. The study aimed to characterize and explore the sensor signals in response to the modulated gas flow at a fixed respiration frequency. It was expected to confirm a superior performance of the proposed system under the gas flow modulation on the early detection scenario. 
 
