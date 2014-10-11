@@ -16,6 +16,14 @@ Figure: PCA trajectories of the sensors' signals pre-processed by a high-pass fi
 
 * R code: [examples/R](examples/R)
 
+## References
+
+* [Ziyatdinov2014]: The first data analysis of the data set was presented in (Ziyatdinov et al., 2014), and the results reported there should be considered as a reference. The study aimed to characterize and explore the sensor signals in response to the modulated gas flow at a fixed respiration frequency. It was expected to confirm a superior performance of the proposed system under the gas flow modulation on the early detection scenario. 
+
+
 ## Note
 
 To be able to run the code, one needs to download the data files `rawdata.csv.gz` and `features.csv` from the UCI Machine Learning Repository website and save them to a local folder named `dat/`.
+
+
+  [Ziyatdinov2014]: http://www.sciencedirect.com/science/article/pii/S0925400514010703 "Ziyatdinov, A., Fonollosa, J., Fernández, L., Gutiérrez-Gálvez, A., Marco, S., & Perera, A. (2014). Bioinspired Early Detection through Gas Flow Modulation in Chemo-Sensory Systems. Sensors and Actuators B: Chemical. In press."
