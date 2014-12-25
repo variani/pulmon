@@ -1,0 +1,115 @@
+% Example on grouping the sensors in R
+% Andrey Ziyatdinov
+% 25/09/2014
+
+```{r setup, include = FALSE}
+opts_chunk$set(fig.path = 'figure/', cache.path = 'cache/', echo = TRUE, 
+  cache = FALSE, tidy = FALSE,
+  fig.width = 9, fig.height = 9, dev = 'png', fig.cap = "",
+  warning = FALSE, message = FALSE)
+opts_knit$set(upload.fun = identity)
+```
+
+## About
+
+This document shows an example of code in R,
+in order to read the `features.csv` of the `pulmon` data set published on 
+[The UC Irvine Machine Learning Repository](http://archive.ics.uci.edu/ml/).
+
+## How to reproduce this report
+
+The working directory:
+```{r}
+getwd()
+```
+
+Run the following commands in R:
+
+```
+library(knitr)
+knit2html("03-group-sensors.Rmd")
+```
+
+That results in two output files: `*.md` (for github) and `*.html` (for browsing locally on your computer).
+
+## Data files
+
+For this report the data files are stored in:
+
+```{r}
+dat.dir <- "../../../dat"
+
+list.files(dat.dir)
+```
+
+One can change the path stored in `dat.dir` variable, if needed.
+
+## Demo
+
+```{r}
+### inc
+library(plyr)
+library(ggplot2)
+
+### options
+options(stringsAsFactors = FALSE)
+```
+
+```{r, cache = TRUE}
+### sensors' info
+load(file.path(dat.dir, "pulmon.sensors.RData"))
+```
+
+```{r, cache = TRUE}
+### data
+dat <- read.table(file.path(dat.dir, "features.csv"), header = TRUE, sep = ",")
+```
+
+We are interested in `max` features.
+
+```{r max}
+ind <- grep("_max", colnames(dat))
+X <- dat[, ind]
+
+Y <- dat$lab
+```
+
+Filter out two labels: `ace-0.3 and `eth-0.3`.
+
+```{r filter}
+Xace <- X[Y == "ace-0.3", ]
+Xeth <- X[Y == "eth-0.3", ]
+```
+
+```{r df}
+df <- data.frame(sensor = 1:16,
+  ace = apply(Xace, 2, mean),
+  eth = apply(Xeth, 2, mean))
+```
+
+Plot affinity map.
+
+```{r affinity_map}
+p1 <- ggplot(df, aes(ace, eth)) + geom_text(aes(label = sensor)) +
+  geom_abline(a = 0, b = 1)
+p1
+```
+
+## Compare with sensors' info
+
+```{r}
+pulmon.sensors
+```
+
+One group of 4 sensors of type `10_5` (bottom-left corner on the figure):
+
+```{r}
+with(pulmon.sensors, R[class == "10_5"])
+```
+
+Another group of 4 sensors of type `10_3.3` (center-left part of the figure):
+
+```{r}
+with(pulmon.sensors, R[class == "10_3.3"])
+```
+
